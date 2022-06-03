@@ -39,6 +39,8 @@ Attraction.init({
         allowNull: false,
     },
     event_id:{
+        type:DataTypes.INTEGER,
+        allowNull: false,
         references:{
         model:'event',
         key:'id',

@@ -14,7 +14,6 @@ Attendee.init(
         event_id: {
             type: DataTypes.INTEGER,
             allowNull: false,
-            autoIncrement: true,
             references: {
                 model: 'event',
                 key: 'id',
@@ -22,7 +21,6 @@ Attendee.init(
         },
         user_id: {
             type: DataTypes.INTEGER,
-            autoIncrement: true,
             references: {
                 model: 'user',
                 key: 'id',

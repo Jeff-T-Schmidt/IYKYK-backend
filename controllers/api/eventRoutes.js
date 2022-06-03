@@ -75,6 +75,9 @@ router.put("/:id", (req, res) => {
 
   // api/events/:id  delete event
   router.delete("/:id", (req, res) => {
+    if(!req.session.user){
+        return res.status(401).json({msg:"Please login to join the club!"})
+    }
     Event.destroy({
       where: {
         id: req.params.id
@@ -87,8 +90,21 @@ router.put("/:id", (req, res) => {
       res.status(500).json({ msg: "an error occured", err });
     });
   });
-
-
+// api/events/attractions  find all attractions in that event
+router.get('/attractions', (req,res)=>{
+    if(!req.session.user){
+        return res.status(401).json({msg:"Please login to join the club!"})
+    }
+    Attraction.findAll({})
+    .then(dbAttractions=>{
+        res.json(dbAttractions)
+    })
+    .catch(err => {
+        console.log(err);
+        res.status(500).json({ msg: "an error occured", err});
+    });
+    
+})
 
 
 
