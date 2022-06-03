@@ -36,6 +36,7 @@ Attendee.init(
         },
         going: {
             type: DataTypes.BOOLEAN,
+            defaultValue:false,
             allowNull: false,
         }
     },
