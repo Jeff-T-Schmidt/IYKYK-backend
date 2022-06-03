@@ -3,11 +3,24 @@ const allRoutes = require("./controllers");
 const session = require("express-session");
 const sequelize = require("./config/connection");
 const SequelizeStore = require("connect-session-sequelize")(session.Store);
-
-
-
+const http = require('http')
+const {Server} = require('socket.io')
+const cors = require('cors')
 const app = express();
+const server = http.createServer(app)
 
+app.use(cors())
+
+const io = new Server(server, {
+    cors:{
+        origin:'http://localhost:3000',
+        methods:['GET', 'POST'],
+    },
+})
+
+server.listen(3002, ()=>{
+    console.log('server is running')
+})
 
 const PORT = process.env.PORT || 3001;
 // Requiring our models for syncing
