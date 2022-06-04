@@ -50,6 +50,7 @@ Attraction.init({
 {
     sequelize,
     freezeTableName: true,
+    underscored: true,
     modelName:'attraction',
 }
 )
