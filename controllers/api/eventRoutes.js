@@ -19,7 +19,7 @@ router.get('/', (req,res)=>{
     });
 })
 // api/events/:id get single event by id
-router.get('/:id',(req,res)=>{
+router.get('/:event_id',(req,res)=>{
     if(!req.session.user){
         return res.status(401).json({msg:"please login first!"})
     }
@@ -44,10 +44,10 @@ router.post('/',(req,res)=>{
         title:req.body.title,
         location:req.body.location,
         details:req.body.details,
-        timeStamp:req.body.timeStamp,
-        startDate:req.body.startDate,
-        endDate:req.body.endDate,
-        adminId:req.session.user.id
+        time_stamp:req.body.timeStamp,
+        start_date:req.body.startDate,
+        end_date:req.body.endDate,
+        admin_id:req.session.user.id
    })
    .then(newEvent => {
     res.json(newEvent);
@@ -59,7 +59,7 @@ router.post('/',(req,res)=>{
 })
 
 // api/events/:id  update events
-router.put("/:id", (req, res) => {
+router.put("/:event_id", (req, res) => {
     if(!req.session.user){
       return res.status(401).json({msg:"Please login to join the club!"})
   }
@@ -78,7 +78,7 @@ router.put("/:id", (req, res) => {
   });
 
   // api/events/:id  delete event
-  router.delete("/:id", (req, res) => {
+  router.delete("/:event_id", (req, res) => {
     if(!req.session.user){
         return res.status(401).json({msg:"Please login to join the club!"})
     }
@@ -94,13 +94,15 @@ router.put("/:id", (req, res) => {
       res.status(500).json({ msg: "an error occured", err });
     });
   });
-// api/events/attractions  find all attractions in that event
-router.get('/attractions', (req,res)=>{
+// api/events/:id/attractions  find all attractions in that event
+router.get('/:event_id/attractions', (req,res)=>{
     if(!req.session.user){
         return res.status(401).json({msg:"Please login to join the club!"})
     }
     Attraction.findAll({
-        include:[Attendee]
+        where:{
+            event_id:req.params.event_id
+        }
     })
     .then(dbAttractions=>{
         res.json(dbAttractions)
@@ -111,13 +113,15 @@ router.get('/attractions', (req,res)=>{
     });
     
 })
-// api/events/attractions/id  find one attraction
-router.get('/attractions/:id', (req,res)=>{
+// api/events/event_id/attractions/id  find one attraction
+router.get('/:event_id/attractions/:id', (req,res)=>{
     if(!req.session.user){
         return res.status(401).json({msg:"Please login to join the club!"})
     }
     Attraction.findByPk(req.params.id,{
-        include:[Attendee]
+        where:{
+            event_id:req.params.event_id
+        }
     })
     .then(dbAttraction=>{
         res.json(dbAttraction)
@@ -128,8 +132,8 @@ router.get('/attractions/:id', (req,res)=>{
     });
     
 })
-// api/events/attractions     create attractions
-router.post('/attractions',(req,res)=>{
+// api/events/event_id/attractions     create attractions
+router.post(':event_id/attractions',(req,res)=>{
     if(!req.session.user){
         return res.status(401).json({msg:"please login first!"})
     }
@@ -137,10 +141,10 @@ router.post('/attractions',(req,res)=>{
         title:req.body.title,
         location:req.body.location,
         details:req.body.details,
-        timeStamp:req.body.timeStamp,
-        startDate:req.body.startDate,
-        endDate:req.body.endDate,
-        eventId:req.session.eventId
+        time_stamp:req.body.time_stamp,
+        start_date:req.body.start_date,
+        end_date:req.body.end_date,
+        event_id:req.body.event_id
    })
    .then(newAttraction => {
     res.json(newAttraction);
@@ -152,7 +156,7 @@ router.post('/attractions',(req,res)=>{
 })
 
 // api/events/attractions/id    update attractions
-router.put("/attractions/:id", (req, res) => {
+router.put("/:event_id/attractions/:id", (req, res) => {
     if(!req.session.user){
       return res.status(401).json({msg:"Please login to join the club!"})
   }
@@ -217,10 +221,10 @@ router.get('/attendees/:id',(req,res)=>{
 // api/events/attendees  create attendees
 router.post('/attendees',(req,res)=>{
     Attendee.create({
-        eventId:req.session.eventId,
-        userId:req.session.userId,
-        invitedEmail:req.session.invitedEmail,
-        going:req.session.going
+        event_id:req.body.event_id,
+        user_id:req.body.user_id,
+        invited_email:req.body.invited_email,
+        going:req.body.going
     })
     .then(newAttendee=>{
         res.json(newAttendee)
