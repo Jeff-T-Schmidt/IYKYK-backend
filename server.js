@@ -26,7 +26,7 @@ socket.on('send_message',(data)=>{
 })
 
 server.listen(3002, ()=>{
-    console.log('server is running')
+    console.log('socket server is running on port 3002')
 })
 
 const PORT = process.env.PORT || 3001;
