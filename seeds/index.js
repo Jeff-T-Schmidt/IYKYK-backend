@@ -21,8 +21,8 @@ const events = [
         title: "Test Event",
         location: "Test Location",
         details: "These are test details",
-        start_date: 1/1/11,
-        end_date: 1/2/11,
+        start_date: "2012-1-19",
+        end_date: "2010-1-20",
         admin_id: 1
     }
 ]
@@ -33,8 +33,8 @@ const attractions = [
         title: "Test Attraction",
         location: "Test Attraction Location",
         details: "Test details",
-        start_date: 1/1/11,
-        end_date: 1/2/11,
+        start_date: "2010-1-19",
+        end_date: "2010-1-20",
         event_id: 1
     }
 ]
