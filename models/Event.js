@@ -47,6 +47,7 @@ Event.init ({
 },
 {
     sequelize,
+    freezeTableName: true,
     modelName:'event',
 })
 

@@ -20,6 +20,9 @@ const io = new Server(server, {
 
 io.on('connection',(socket)=>{
 console.log(`user connected:${socket.id}`)
+socket.on('send_message',(data)=>{
+  socket.broadcast.emit("receive_message",data);
+})
 })
 
 server.listen(3002, ()=>{
@@ -53,7 +56,7 @@ app.use(express.static('public'));
 app.use("/", allRoutes);
 
 
-sequelize.sync({ force: false }).then(function() {
+sequelize.sync({ force: false}).then(function() {
   app.listen(PORT, function() {
     console.log("App listening on PORT localhost:" + PORT);
   });

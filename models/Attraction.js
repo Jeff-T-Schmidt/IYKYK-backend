@@ -49,7 +49,8 @@ Attraction.init({
 },
 {
     sequelize,
-    modelName:'event',
+    freezeTableName: true,
+    modelName:'attraction',
 }
 )
 
