@@ -27,7 +27,7 @@ Attendee.init(
             },
         },
         invited_email: {
-            type: DataTypes.TEXT,
+            type: DataTypes.STRING,
             allowNull: false,
             unique: true,
             validate: {
