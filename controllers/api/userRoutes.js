@@ -17,20 +17,6 @@ router.get('/', (req, res) => {
       res.status(500).json({ msg: "an error occured", err });
     });
 });
-// router.get("/logout", (req, res) => {
-//   req.session.destroy();
-//   res.redirect("/")
-// })
-
-// router.post('/logout', withAuth, (req, res) => {
-//   if (req.session.user.logged_in) {
-//     req.session.destroy(() => {
-//       res.status(204).end();
-//     });
-//   } else {
-//     res.status(404).end();
-//   }
-// });
 
 router.get("/:id", (req, res) => {
   User.findByPk(req.params.id, {

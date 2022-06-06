@@ -5,9 +5,6 @@ const {withAuth} = require("../utils/tokenAuth")
 
 // api/events/  get all events
 router.get('/', (req, res) => {
-  if (!req.session.user) {
-    return res.status(401).json({ msg: "please login first!" })
-  }
   Event.findAll({
     include: [Attendee, Attraction]
   })
@@ -21,9 +18,6 @@ router.get('/', (req, res) => {
 })
 // api/events/:id get single event by id
 router.get('/:event_id', (req, res) => {
-  if (!req.session.user) {
-    return res.status(401).json({ msg: "please login first!" })
-  }
   Event.findByPk(req.params.event_id, {
     include: [Attendee, Attraction]
   })
@@ -38,9 +32,6 @@ router.get('/:event_id', (req, res) => {
 
 // api/event/  create event
 router.post('/', withAuth, (req, res) => {
-  if (!req.session.user) {
-    return res.status(401).json({ msg: "please login first!" })
-  }
   Event.create({
     title: req.body.title,
     location: req.body.location,
@@ -48,7 +39,7 @@ router.post('/', withAuth, (req, res) => {
     time_stamp: req.body.time_stamp,
     start_date: req.body.start_date,
     end_date: req.body.end_date,
-    admin_id: req.session.user.id
+    admin_id: req.body.user.id
   })
     .then(newEvent => {
       res.json(newEvent);
@@ -61,9 +52,6 @@ router.post('/', withAuth, (req, res) => {
 
 // api/events/:id  update events
 router.put("/:event_id", withAuth, (req, res) => {
-  if (!req.session.user) {
-    return res.status(401).json({ msg: "Please login to join the club!" })
-  }
   Event.update(req.body, {
     where: {
       id: req.params.event_id
@@ -80,9 +68,6 @@ router.put("/:event_id", withAuth, (req, res) => {
 
 // api/events/:id  delete event
 router.delete("/:event_id", withAuth, (req, res) => {
-  if (!req.session.user) {
-    return res.status(401).json({ msg: "Please login to join the club!" })
-  }
   Event.destroy({
     where: {
       id: req.params.event_id
@@ -97,9 +82,6 @@ router.delete("/:event_id", withAuth, (req, res) => {
 });
 // api/events/:id/attractions  find all attractions in that event
 router.get('/:event_id/attractions', (req, res) => {
-  if (!req.session.user) {
-    return res.status(401).json({ msg: "Please login to join the club!" })
-  }
   Attraction.findAll({
     where: {
       event_id: req.params.event_id
@@ -116,9 +98,6 @@ router.get('/:event_id/attractions', (req, res) => {
 })
 // api/events/:event_id/attractions/:id  find one attraction
 router.get('/attractions/:id', (req, res) => {
-  if (!req.session.user) {
-    return res.status(401).json({ msg: "Please login to join the club!" })
-  }
   Attraction.findByPk(req.params.id, {
     include: [Event]
   })
@@ -133,9 +112,6 @@ router.get('/attractions/:id', (req, res) => {
 })
 // api/events/attractions     create attractions
 router.post('/:event_id/attractions', withAuth, (req, res) => {
-  if (!req.session.user) {
-    return res.status(401).json({ msg: "please login first!" })
-  }
   Attraction.create({
     title: req.body.title,
     location: req.body.location,
@@ -156,9 +132,6 @@ router.post('/:event_id/attractions', withAuth, (req, res) => {
 
 // api/events/attractions/id    update attractions
 router.put("/attractions/:id", withAuth, (req, res) => {
-  if (!req.session.user) {
-    return res.status(401).json({ msg: "Please login to join the club!" })
-  }
   Attraction.update(req.body, {
     where: {
       id: req.params.id
@@ -174,9 +147,6 @@ router.put("/attractions/:id", withAuth, (req, res) => {
 });
 // api/events/attractions/id    delete attraction
 router.delete("/attractions/:id", withAuth, (req, res) => {
-  if (!req.session.user) {
-    return res.status(401).json({ msg: "Please login to join the club!" })
-  }
   Attraction.destroy({
     where: {
       id: req.params.id
@@ -191,9 +161,6 @@ router.delete("/attractions/:id", withAuth, (req, res) => {
 });
 // api/events/attendees   find all attendees
 router.get('/:event_id/attendees', (req, res) => {
-    if (!req.session.user) {
-        return res.status(401).json({ msg: "Please login to join the club!" })
-      }
   Attendee.findAll({
       include:[Event],
     where: {
