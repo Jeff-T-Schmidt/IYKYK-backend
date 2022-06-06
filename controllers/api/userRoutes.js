@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const { User, Event, Attendee, Attraction } = require("../../models");
 const bcrypt = require("bcrypt");
+const {withAuth} = require("../utils/tokenAuth")
 
 router.get('/', (req, res) => {
   User.findAll({
@@ -20,7 +21,7 @@ router.get('/', (req, res) => {
 //   res.redirect("/")
 // })
 
-router.post('/logout', (req, res) => {
+router.post('/logout', withAuth, (req, res) => {
   if (req.session.user.logged_in) {
     req.session.destroy(() => {
       res.status(204).end();
@@ -42,7 +43,7 @@ router.get("/:id", (req, res) => {
       res.status(500).json({ msg: "an error occured", err });
     });
 });
-router.post("/signup", (req, res) => {
+router.post("/signup", withAuth, (req, res) => {
   User.create(req.body)
     .then(newUser => {
       req.session.user = {
@@ -57,7 +58,7 @@ router.post("/signup", (req, res) => {
       res.status(500).json({ msg: "an error occured", err });
     });
 });
-router.post("/login", (req, res) => {
+router.post("/login", withAuth, (req, res) => {
   User.findOne({
     where: {
       email: req.body.email
@@ -83,7 +84,7 @@ router.post("/login", (req, res) => {
 });
 
 //update user
-router.put("/:id", (req, res) => {
+router.put("/:id", withAuth, (req, res) => {
   User.update(req.body, {
     where: {
       id: req.params.id
@@ -98,7 +99,7 @@ router.put("/:id", (req, res) => {
 });
 
 //delete a user
-router.delete("/:id", (req, res) => {
+router.delete("/:id", withAuth, (req, res) => {
   User.destroy({
     where: {
       id: req.params.id
