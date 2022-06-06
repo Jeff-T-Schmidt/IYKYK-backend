@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const { User, Event, Attendee, Attraction } = require("../../models");
 const bcrypt = require("bcrypt");
-const {withAuth} = require("../utils/tokenAuth")
+const {withAuth} = require("../../util/tokenAuth")
 const jwt = require("jsonwebtoken");
 
 router.get('/', (req, res) => {
@@ -18,6 +18,10 @@ router.get('/', (req, res) => {
     });
 });
 
+router.get("/verifyToken",withAuth,(req,res)=>{
+    res.json({userId:req.user})
+})
+
 router.get("/:id", (req, res) => {
   User.findByPk(req.params.id, {
     include: [Event]
@@ -30,11 +34,12 @@ router.get("/:id", (req, res) => {
       res.status(500).json({ msg: "an error occured", err });
     });
 });
-router.post("/signup", withAuth, (req, res) => {
+router.post("/signup", (req, res) => {
   User.create(req.body)
     .then(newUser => {
         const token = jwt.sign({ 
             id: newUser.id, 
+            name:newUser.name,
             email:newUser.email, 
         }, process.env.JWT_SECRET, {
             expiresIn: process.env.TOKEN_MAX_AGE

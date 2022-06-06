@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const { User, Event, Attendee, Attraction } = require("../../models");
-const {withAuth} = require("../utils/tokenAuth")
+const {withAuth} = require("../../util/tokenAuth")
 
 // api/events/  get all events
 router.get('/', (req, res) => {
