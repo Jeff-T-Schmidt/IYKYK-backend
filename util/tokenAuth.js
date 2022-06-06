@@ -8,7 +8,7 @@ const withAuth = function (req, res, next) {
   try {
     const info = jwt.verify(token, process.env.JWT_SECRET);
     console.log(info);
-    req.user= info.userId
+    req.user= info.id
     next()
   } catch (err) {
     return res.status(401).json({ msg: "invalid credentials" });
