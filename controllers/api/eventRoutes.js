@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const { User, Event, Attendee, Attraction } = require("../../models");
+const {withAuth} = require("../utils/tokenAuth")
 
 // api/events/  get all events
 router.get('/', (req, res) => {
@@ -36,7 +37,7 @@ router.get('/:event_id', (req, res) => {
 })
 
 // api/event/  create event
-router.post('/', (req, res) => {
+router.post('/', withAuth, (req, res) => {
   if (!req.session.user) {
     return res.status(401).json({ msg: "please login first!" })
   }
@@ -59,7 +60,7 @@ router.post('/', (req, res) => {
 })
 
 // api/events/:id  update events
-router.put("/:event_id", (req, res) => {
+router.put("/:event_id", withAuth, (req, res) => {
   if (!req.session.user) {
     return res.status(401).json({ msg: "Please login to join the club!" })
   }
@@ -78,7 +79,7 @@ router.put("/:event_id", (req, res) => {
 });
 
 // api/events/:id  delete event
-router.delete("/:event_id", (req, res) => {
+router.delete("/:event_id", withAuth, (req, res) => {
   if (!req.session.user) {
     return res.status(401).json({ msg: "Please login to join the club!" })
   }
@@ -131,7 +132,7 @@ router.get('/attractions/:id', (req, res) => {
 
 })
 // api/events/attractions     create attractions
-router.post('/:event_id/attractions', (req, res) => {
+router.post('/:event_id/attractions', withAuth, (req, res) => {
   if (!req.session.user) {
     return res.status(401).json({ msg: "please login first!" })
   }
@@ -154,7 +155,7 @@ router.post('/:event_id/attractions', (req, res) => {
 })
 
 // api/events/attractions/id    update attractions
-router.put("/attractions/:id", (req, res) => {
+router.put("/attractions/:id", withAuth, (req, res) => {
   if (!req.session.user) {
     return res.status(401).json({ msg: "Please login to join the club!" })
   }
@@ -172,7 +173,7 @@ router.put("/attractions/:id", (req, res) => {
     });
 });
 // api/events/attractions/id    delete attraction
-router.delete("/attractions/:id", (req, res) => {
+router.delete("/attractions/:id", withAuth, (req, res) => {
   if (!req.session.user) {
     return res.status(401).json({ msg: "Please login to join the club!" })
   }
@@ -189,9 +190,15 @@ router.delete("/attractions/:id", (req, res) => {
     });
 });
 // api/events/attendees   find all attendees
-router.get('/attendees', (req, res) => {
+router.get('/:event_id/attendees', (req, res) => {
+    if (!req.session.user) {
+        return res.status(401).json({ msg: "Please login to join the club!" })
+      }
   Attendee.findAll({
-    include: [User, Event]
+      include:[Event],
+    where: {
+        event_id: req.params.event_id
+      }
   })
     .then(dbAttendees => {
       res.json(dbAttendees)
@@ -204,8 +211,8 @@ router.get('/attendees', (req, res) => {
 })
 // api/events/attendees/id   find one
 router.get('/attendees/:id', (req, res) => {
-  Attendee.findByPk({
-    include: [User, Event]
+  Attendee.findByPk(req.params.id,{
+    include: [ Event]
   })
     .then(dbAttendee => {
       res.json(dbAttendee)
@@ -217,7 +224,7 @@ router.get('/attendees/:id', (req, res) => {
 
 })
 // api/events/attendees  create attendees
-router.post('/attendees', (req, res) => {
+router.post('/attendees', withAuth, (req, res) => {
   Attendee.create({
     event_id: req.body.event_id,
     user_id: req.body.user_id,
@@ -235,7 +242,7 @@ router.post('/attendees', (req, res) => {
 })
 
 // api/events/attendees/id  update  attendees
-router.put('/attendees/:id', (req, res) => {
+router.put('/attendees/:id', withAuth, (req, res) => {
   Attendee.update(req.body, {
     where: {
       id: req.params.id
@@ -251,7 +258,7 @@ router.put('/attendees/:id', (req, res) => {
 
 })
 // api/events/attendees/id   delete attendees
-router.delete('/attendees/:id', (req, res) => {
+router.delete('/attendees/:id', withAuth, (req, res) => {
   Attendee.destroy({
     where: {
       id: req.params.id
