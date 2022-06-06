@@ -3,6 +3,7 @@ const router = express.Router();
 const { User, Event, Attendee, Attraction } = require("../../models");
 const bcrypt = require("bcrypt");
 const {withAuth} = require("../utils/tokenAuth")
+const jwt = require("jsonwebtoken");
 
 router.get('/', (req, res) => {
   User.findAll({
@@ -21,15 +22,15 @@ router.get('/', (req, res) => {
 //   res.redirect("/")
 // })
 
-router.post('/logout', withAuth, (req, res) => {
-  if (req.session.user.logged_in) {
-    req.session.destroy(() => {
-      res.status(204).end();
-    });
-  } else {
-    res.status(404).end();
-  }
-});
+// router.post('/logout', withAuth, (req, res) => {
+//   if (req.session.user.logged_in) {
+//     req.session.destroy(() => {
+//       res.status(204).end();
+//     });
+//   } else {
+//     res.status(404).end();
+//   }
+// });
 
 router.get("/:id", (req, res) => {
   User.findByPk(req.params.id, {
@@ -46,12 +47,13 @@ router.get("/:id", (req, res) => {
 router.post("/signup", withAuth, (req, res) => {
   User.create(req.body)
     .then(newUser => {
-      req.session.user = {
-        id: newUser.id,
-        email: newUser.email,
-        logged_in: true
-      }
-      res.json(newUser);
+        const token = jwt.sign({ 
+            id: newUser.id, 
+            email:newUser.email, 
+        }, process.env.JWT_SECRET, {
+            expiresIn: process.env.TOKEN_MAX_AGE
+        });
+      res.status(200).json(token);
     })
     .catch(err => {
       console.log(err);
@@ -68,12 +70,13 @@ router.post("/login", withAuth, (req, res) => {
       return res.status(400).json({ msg: "wrong login credentials" })
     }
     if (bcrypt.compareSync(req.body.password, foundUser.password)) {
-      req.session.user = {
-        id: foundUser.id,
-        email: foundUser.email,
-        logged_in: true
-      }
-      return res.json(foundUser)
+        const token = jwt.sign({
+            id:foundUser.id,
+            email:foundUser.email,
+        },process.env.JWT_SECRET,{
+            expiresIn: process.env.TOKEN_MAX_AGE
+      })
+      return  res.status(200).json(token);
     } else {
       return res.status(400).json({ msg: "wrong login credentials" })
     }
