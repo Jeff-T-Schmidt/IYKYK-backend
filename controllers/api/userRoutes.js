@@ -51,7 +51,7 @@ router.post("/signup", (req, res) => {
       res.status(500).json({ msg: "an error occured", err });
     });
 });
-router.post("/login", withAuth, (req, res) => {
+router.post("/login", (req, res) => {
   User.findOne({
     where: {
       email: req.body.email
