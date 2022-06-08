@@ -30,7 +30,7 @@ router.get('/:event_id', (req, res) => {
     });
 })
 
-// api/event/  create event
+// api/events/  create event
 router.post('/', withAuth, (req, res) => {
   Event.create({
     title: req.body.title,
@@ -39,7 +39,7 @@ router.post('/', withAuth, (req, res) => {
     time_stamp: req.body.time_stamp,
     start_date: req.body.start_date,
     end_date: req.body.end_date,
-    admin_id: req.body.user.id
+    admin_id: req.body.admin_id
   })
     .then(newEvent => {
       res.json(newEvent);
