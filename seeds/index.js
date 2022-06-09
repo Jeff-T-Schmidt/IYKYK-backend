@@ -24,6 +24,14 @@ const events = [
         start_date: 2012-1-19,
         end_date: 2010-1-20,
         admin_id: 1
+    },
+    {
+        title: "Test Event 2",
+        location: "Test Location 2",
+        details: "These are test details 2",
+        start_date: 2012-1-21,
+        end_date: 2010-1-22,
+        admin_id: 1
     }
 ]
 
@@ -45,7 +53,13 @@ const attendees = [
         user_id: 2,
         invited_email: 'test2@test.com',
         going: true
-    }
+    },
+    {
+        event_id: 2,
+        user_id: 2,
+        invited_email: 'test2@test.com',
+        going: true
+    },
 ]
 
 
