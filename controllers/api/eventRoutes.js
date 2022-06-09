@@ -191,7 +191,7 @@ router.get('/attendees/:id', (req, res) => {
 
 })
 // api/events/attendees  create attendees
-router.post('/attendees', withAuth, (req, res) => {
+router.post('/attendees', (req, res) => {
   Attendee.create({
     event_id: req.body.event_id,
     user_id: req.body.user_id,
