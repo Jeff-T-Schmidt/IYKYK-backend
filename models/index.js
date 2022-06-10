@@ -3,6 +3,7 @@ const Event = require('./Event');
 const Attraction = require('./Attraction');
 const Attendee = require('./Attendee');
 
+
 User.hasMany(Event, {
     foreignKey: 'admin_id',
     onDelete: 'CASCADE'
@@ -14,7 +15,7 @@ Event.belongsTo(User, {
 });
 
 Event.belongsToMany(User, {
-    through: Attendee,
+     through: Attendee,
     foreignKey: "event_id"
 });
 
