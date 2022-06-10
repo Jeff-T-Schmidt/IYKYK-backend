@@ -30,6 +30,19 @@ router.get('/:event_id', (req, res) => {
       res.status(500).json({ msg: "an error occured", err });
     });
 })
+// api/events/admin/:admin_id get all events where user is admin
+router.get('/admin/:admin_id', (req, res) => {
+  Event.findAll({where:{admin_id:req.params.admin_id}}, {
+    include: [Attendee, Attraction]
+  })
+    .then(dbEvent => {
+      res.json(dbEvent);
+    })
+    .catch(err => {
+      console.log(err);
+      res.status(500).json({ msg: "an error occured", err });
+    });
+})
 
 // api/event/  create event
 router.post('/', withAuth, (req, res) => {
