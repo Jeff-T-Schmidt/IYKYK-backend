@@ -22,6 +22,7 @@ router.get('/:event_id', (req, res) => {
     include: [Attendee, Attraction]
   })
     .then(dbEvent => {
+      console.log(dbEvent)
       res.json(dbEvent);
     })
     .catch(err => {
@@ -39,7 +40,7 @@ router.post('/', withAuth, (req, res) => {
     time_stamp: req.body.time_stamp,
     start_date: req.body.start_date,
     end_date: req.body.end_date,
-    admin_id: req.body.admin_id
+    admin_id: req.user
   })
     .then(newEvent => {
       res.json(newEvent);
