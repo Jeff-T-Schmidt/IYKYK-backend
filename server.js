@@ -21,7 +21,10 @@ console.log(`user connected:${socket.id}`)
 socket.on('send_message',(data)=>{
   socket.broadcast.emit("receive_message",data);
 })
-})
+socket.on("disconnect", () => {
+  console.log("User Disconnected", socket.id);
+});
+});
 
 server.listen(3002, ()=>{
     console.log('socket server is running on port 3002')
