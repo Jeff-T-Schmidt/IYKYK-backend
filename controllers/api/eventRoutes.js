@@ -44,7 +44,7 @@ router.get('/admin/:admin_id', (req, res) => {
     });
 })
 
-// api/event/  create event
+// api/events/  create event
 router.post('/', withAuth, (req, res) => {
   Event.create({
     title: req.body.title,
