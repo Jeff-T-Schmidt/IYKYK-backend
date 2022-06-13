@@ -41,24 +41,24 @@ const events = [
         title: "Thai Food Bananza",
         location: "Dap's Thai Food Restaurant",
         details: "Come one, come all to Dap's extravagant, family-owned Thai restaurant. Voted #1 ever.",
-        start_date: 2022-6-13,
-        end_date: 2022-6-13,
+        start_date: '2022-06-13',
+        end_date: '2022-06-15',
         admin_id: 1
     },
     {
         title: "MTG Commander Night",
         location: "Zulus",
         details: "Come down to a fun night of Commander. Food, drink included- serious decks only.",
-        start_date: 2022-6-15,
-        end_date: 2022-6-15,
+        start_date: '2022-06-15',
+        end_date: '2022-06-16',
         admin_id: 1
     },
     {
         title: "Deep Sea Fishing",
         location: "Strait of Juan de Fuca",
         details: "Hop on a boat, venture out to the sea and 360 no scope some fishies.",
-        start_date: 2022-6-16,
-        end_date: 2022-6-16,
+        start_date: '2022-06-16',
+        end_date: '2022-06-17',
         admin_id: 1
     }
 ]
@@ -69,8 +69,8 @@ const attractions = [
         title: "Test Attraction",
         location: "Test Attraction Location",
         details: "Test details",
-        start_date: 2010-1-19,
-        end_date: 2010-1-20,
+        start_date: '2010-1-19',
+        end_date: '2010-1-20',
         event_id: 1
     }
 ]
