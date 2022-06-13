@@ -26,9 +26,9 @@ socket.on("disconnect", () => {
 });
 });
 
-server.listen(3002, ()=>{
-    console.log('socket server is running on port 3002')
-})
+// server.listen(3002, ()=>{
+//     console.log('socket server is running on port 3002')
+// })
 
 const PORT = process.env.PORT || 3001;
 // Requiring our models for syncing
@@ -46,7 +46,7 @@ app.use("/", allRoutes);
 
 
 sequelize.sync({ force: false}).then(function() {
-  app.listen(PORT, function() {
+  server.listen(PORT, function() {
     console.log("App listening on PORT localhost:" + PORT);
   });
 });
