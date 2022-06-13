@@ -27,7 +27,7 @@ Event.init ({
     time_stamp:{
         type:DataTypes.DATE,
         defaultValue: DataTypes.NOW,
-        allowNull:false
+        allowNul:false
     },
     start_date:{
         type:DataTypes.DATEONLY,
