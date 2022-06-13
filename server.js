@@ -11,7 +11,7 @@ app.use(cors())
 
 const io = new Server(server, {
     cors:{
-        origin:'https://iykyk-frontend.herokuapp.com',
+        origin:'http://localhost:3000',
         methods:['GET', 'POST'],
     },
 })

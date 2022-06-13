@@ -13,6 +13,11 @@ const users = [
         email: "test2@test.com",
         password: "password",
     },
+    {
+        name: "Tester 3",
+        email: "test3@test.com",
+        password: "password",
+    },
 ]
 
 // Event needs title,location,details,start_date,end_date,admin_id
@@ -52,12 +57,18 @@ const attendees = [
         event_id: 1,
         user_id: 2,
         invited_email: 'test2@test.com',
-        going: true
+        going: false
     },
     {
         event_id: 2,
         user_id: 2,
         invited_email: 'test2@test.com',
+        going: true
+    },
+    {
+        event_id: 2,
+        user_id: 3,
+        invited_email: 'test3@test.com',
         going: true
     },
 ]
